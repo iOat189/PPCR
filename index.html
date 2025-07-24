@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สรุปจำนวนแบบประเมินความพึงพอใจนักกายภาพบำบัด</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Kanit', sans-serif;
+        }
+        .card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .loading {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4">
+    <div class="container mx-auto max-w-6xl">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl md:text-5xl font-bold text-white mb-4">
+                📊 สรุปจำนวนแบบประเมินความพึงพอใจนักกายภาพบำบัด 🏥
+            </h1>
+            <p class="text-white/80 text-lg">ระบบติดตามและวิเคราะห์ความพึงพอใจของผู้รับบริการ</p>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="card rounded-2xl p-6 mb-8 shadow-2xl">
+            <div class="flex flex-col md:flex-row gap-4 items-center justify-center">
+                <div class="flex items-center gap-2">
+                    <label for="monthSelect" class="text-gray-700 font-medium">📅 เลือกช่วงเดือน:</label>
+                    <select id="monthSelect" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                        <option value="">ทุกเดือน</option>
+                        <option value="01">มกราคม</option>
+                        <option value="02">กุมภาพันธ์</option>
+                        <option value="03">มีนาคม</option>
+                        <option value="04">เมษายน</option>
+                        <option value="05">พฤษภาคม</option>
+                        <option value="06">มิถุนายน</option>
+                        <option value="07">กรกฎาคม</option>
+                        <option value="08">สิงหาคม</option>
+                        <option value="09">กันยายน</option>
+                        <option value="10">ตุลาคม</option>
+                        <option value="11">พฤศจิกายน</option>
+                        <option value="12">ธันวาคม</option>
+                    </select>
+                </div>
+                <button id="loadDataBtn" class="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    🔍 เรียกดูข้อมูล
+                </button>
+            </div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loadingIndicator" class="hidden text-center py-8">
+            <div class="loading inline-block w-8 h-8 border-4 border-white border-t-transparent rounded-full"></div>
+            <p class="text-white mt-4">กำลังโหลดข้อมูล...</p>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="hidden card rounded-2xl p-6 mb-8 shadow-2xl bg-red-50 border-red-200">
+            <div class="text-center text-red-600">
+                <p class="text-lg font-medium">❌ เกิดข้อผิดพลาดในการโหลดข้อมูล</p>
+                <p class="text-sm mt-2">กรุณาลองใหม่อีกครั้ง หรือตรวจสอบการเชื่อมต่ออินเทอร์เน็ต</p>
+            </div>
+        </div>
+
+        <!-- Data Display -->
+        <div id="dataContainer" class="hidden fade-in">
+            <!-- Summary Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="card rounded-2xl p-6 text-center shadow-2xl">
+                    <div class="text-3xl mb-2">📅</div>
+                    <div class="text-2xl font-bold text-blue-600" id="selectedMonth">ทุกเดือน</div>
+                    <div class="text-gray-600">เดือนที่เลือก</div>
+                </div>
+                <div class="card rounded-2xl p-6 text-center shadow-2xl">
+                    <div class="text-3xl mb-2">📝</div>
+                    <div class="text-2xl font-bold text-purple-600" id="totalResponses">0</div>
+                    <div class="text-gray-600">จำนวนผู้ตอบทั้งหมด</div>
+                </div>
+            </div>
+
+            <!-- Detailed Results -->
+            <div class="space-y-6">
+                <!-- Question 1 -->
+                <div class="card rounded-2xl p-6 shadow-2xl">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">👨‍⚕️ 1. เจ้าหน้าที่มีความรู้ ความสามารถให้บริการอย่างมืออาชีพ</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="q1Results">
+                        <div class="text-center p-4 bg-green-100 rounded-lg">
+                            <div class="text-2xl font-bold text-green-600" id="q1-excellent">0</div>
+                            <div class="text-sm text-gray-600">ดีเยี่ยม</div>
+                        </div>
+                        <div class="text-center p-4 bg-blue-100 rounded-lg">
+                            <div class="text-2xl font-bold text-blue-600" id="q1-good">0</div>
+                            <div class="text-sm text-gray-600">ดี</div>
+                        </div>
+                        <div class="text-center p-4 bg-yellow-100 rounded-lg">
+                            <div class="text-2xl font-bold text-yellow-600" id="q1-fair">0</div>
+                            <div class="text-sm text-gray-600">พอใช้</div>
+                        </div>
+                        <div class="text-center p-4 bg-red-100 rounded-lg">
+                            <div class="text-2xl font-bold text-red-600" id="q1-poor">0</div>
+                            <div class="text-sm text-gray-600">ควรปรับปรุง</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="card rounded-2xl p-6 shadow-2xl">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">😊 2. เจ้าหน้าที่พูดจาสุภาพ ยิ้มแย้มแจ่มใส</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="q2Results">
+                        <div class="text-center p-4 bg-green-100 rounded-lg">
+                            <div class="text-2xl font-bold text-green-600" id="q2-excellent">0</div>
+                            <div class="text-sm text-gray-600">ดีเยี่ยม</div>
+                        </div>
+                        <div class="text-center p-4 bg-blue-100 rounded-lg">
+                            <div class="text-2xl font-bold text-blue-600" id="q2-good">0</div>
+                            <div class="text-sm text-gray-600">ดี</div>
+                        </div>
+                        <div class="text-center p-4 bg-yellow-100 rounded-lg">
+                            <div class="text-2xl font-bold text-yellow-600" id="q2-fair">0</div>
+                            <div class="text-sm text-gray-600">พอใช้</div>
+                        </div>
+                        <div class="text-center p-4 bg-red-100 rounded-lg">
+                            <div class="text-2xl font-bold text-red-600" id="q2-poor">0</div>
+                            <div class="text-sm text-gray-600">ควรปรับปรุง</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="card rounded-2xl p-6 shadow-2xl">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">❤️ 3. เจ้าหน้าที่เอาใจใส่ เต็มใจให้บริการ</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="q3Results">
+                        <div class="text-center p-4 bg-green-100 rounded-lg">
+                            <div class="text-2xl font-bold text-green-600" id="q3-excellent">0</div>
+                            <div class="text-sm text-gray-600">ดีเยี่ยม</div>
+                        </div>
+                        <div class="text-center p-4 bg-blue-100 rounded-lg">
+                            <div class="text-2xl font-bold text-blue-600" id="q3-good">0</div>
+                            <div class="text-sm text-gray-600">ดี</div>
+                        </div>
+                        <div class="text-center p-4 bg-yellow-100 rounded-lg">
+                            <div class="text-2xl font-bold text-yellow-600" id="q3-fair">0</div>
+                            <div class="text-sm text-gray-600">พอใช้</div>
+                        </div>
+                        <div class="text-center p-4 bg-red-100 rounded-lg">
+                            <div class="text-2xl font-bold text-red-600" id="q3-poor">0</div>
+                            <div class="text-sm text-gray-600">ควรปรับปรุง</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 4 -->
+                <div class="card rounded-2xl p-6 shadow-2xl">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">🌟 4. ความพึงพอใจโดยรวม</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="q4Results">
+                        <div class="text-center p-4 bg-green-100 rounded-lg">
+                            <div class="text-2xl font-bold text-green-600" id="q4-excellent">0</div>
+                            <div class="text-sm text-gray-600">ดีเยี่ยม</div>
+                        </div>
+                        <div class="text-center p-4 bg-blue-100 rounded-lg">
+                            <div class="text-2xl font-bold text-blue-600" id="q4-good">0</div>
+                            <div class="text-sm text-gray-600">ดี</div>
+                        </div>
+                        <div class="text-center p-4 bg-yellow-100 rounded-lg">
+                            <div class="text-2xl font-bold text-yellow-600" id="q4-fair">0</div>
+                            <div class="text-sm text-gray-600">พอใช้</div>
+                        </div>
+                        <div class="text-center p-4 bg-red-100 rounded-lg">
+                            <div class="text-2xl font-bold text-red-600" id="q4-poor">0</div>
+                            <div class="text-sm text-gray-600">ควรปรับปรุง</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Popular Physiotherapists -->
+                <div class="card rounded-2xl p-6 shadow-2xl">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">🏆 นักกายภาพบำบัดที่ได้รับการประทับใจ</h3>
+                    <div id="physiotherapistList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Comments Section -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="card rounded-2xl p-6 shadow-2xl">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">💡 ข้อเสนอแนะ</h3>
+                        <div id="suggestionsList" class="space-y-3 max-h-96 overflow-y-auto">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    <div class="card rounded-2xl p-6 shadow-2xl">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">🔧 ข้อควรปรับปรุง</h3>
+                        <div id="improvementsList" class="space-y-3 max-h-96 overflow-y-auto">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx_gf0fO0cA4zboO_uQfsD68y9jHdMV9q36EOtcfoLyDuo35VAfIBIiyFi7u0fRmvz_Bg/exec';
+        
+        let allData = [];
+
+        document.getElementById('loadDataBtn').addEventListener('click', loadData);
+
+        function loadData() {
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const errorMessage = document.getElementById('errorMessage');
+            const dataContainer = document.getElementById('dataContainer');
+            
+            // Show loading, hide others
+            loadingIndicator.classList.remove('hidden');
+            errorMessage.classList.add('hidden');
+            dataContainer.classList.add('hidden');
+
+            // Create JSONP callback
+            const callbackName = 'jsonpCallback_' + Date.now();
+            window[callbackName] = function(data) {
+                loadingIndicator.classList.add('hidden');
+                
+                if (data && data.length > 0) {
+                    allData = data;
+                    processAndDisplayData();
+                    dataContainer.classList.remove('hidden');
+                } else {
+                    showError('ไม่พบข้อมูลในระบบ');
+                }
+                
+                // Cleanup
+                delete window[callbackName];
+                document.head.removeChild(script);
+            };
+
+            // Create script tag for JSONP
+            const script = document.createElement('script');
+            script.src = `${APP_SCRIPT_URL}?callback=${callbackName}`;
+            script.onerror = function() {
+                loadingIndicator.classList.add('hidden');
+                showError('ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้');
+                delete window[callbackName];
+                document.head.removeChild(script);
+            };
+            
+            document.head.appendChild(script);
+        }
+
+        function showError(message) {
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.querySelector('p').textContent = message;
+            errorMessage.classList.remove('hidden');
+        }
+
+        function processAndDisplayData() {
+            const selectedMonth = document.getElementById('monthSelect').value;
+            
+            // Filter data by month if selected
+            let filteredData = allData;
+            if (selectedMonth) {
+                filteredData = allData.filter(row => {
+                    const timestamp = row[0]; // Assuming timestamp is in first column
+                    if (timestamp) {
+                        const date = new Date(timestamp);
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        return month === selectedMonth;
+                    }
+                    return false;
+                });
+            }
+
+            // Process the data
+            const results = {
+                q1: { excellent: 0, good: 0, fair: 0, poor: 0 },
+                q2: { excellent: 0, good: 0, fair: 0, poor: 0 },
+                q3: { excellent: 0, good: 0, fair: 0, poor: 0 },
+                q4: { excellent: 0, good: 0, fair: 0, poor: 0 },
+                suggestions: [],
+                improvements: [],
+                physiotherapists: {}
+            };
+
+            filteredData.forEach(row => {
+                // Assuming columns are: timestamp, q1, q2, q3, q4, suggestions, improvements, physiotherapist
+                if (row.length >= 8) {
+                    // Process questions 1-4 (columns 1-4)
+                    for (let i = 1; i <= 4; i++) {
+                        const answer = row[i];
+                        if (answer) {
+                            const qKey = `q${i}`;
+                            if (answer.includes('ดีเยี่ยม')) results[qKey].excellent++;
+                            else if (answer.includes('ดี')) results[qKey].good++;
+                            else if (answer.includes('พอใช้')) results[qKey].fair++;
+                            else if (answer.includes('ควรปรับปรุง')) results[qKey].poor++;
+                        }
+                    }
+
+                    // Process suggestions (column 5)
+                    if (row[5] && row[5].trim()) {
+                        results.suggestions.push(row[5].trim());
+                    }
+
+                    // Process improvements (column 6)
+                    if (row[6] && row[6].trim()) {
+                        results.improvements.push(row[6].trim());
+                    }
+
+                    // Process physiotherapists (column 7)
+                    if (row[7] && row[7].trim()) {
+                        const name = row[7].trim();
+                        results.physiotherapists[name] = (results.physiotherapists[name] || 0) + 1;
+                    }
+                }
+            });
+
+            // Update UI
+            updateSummaryStats(filteredData.length, results);
+            updateQuestionResults(results);
+            updatePhysiotherapistList(results.physiotherapists);
+            updateComments(results.suggestions, results.improvements);
+        }
+
+        function updateSummaryStats(totalResponses, results) {
+            document.getElementById('totalResponses').textContent = totalResponses;
+            
+            // Update selected month display
+            const selectedMonth = document.getElementById('monthSelect').value;
+            const monthNames = {
+                '': 'ทุกเดือน',
+                '01': 'มกราคม',
+                '02': 'กุมภาพันธ์',
+                '03': 'มีนาคม',
+                '04': 'เมษายน',
+                '05': 'พฤษภาคม',
+                '06': 'มิถุนายน',
+                '07': 'กรกฎาคม',
+                '08': 'สิงหาคม',
+                '09': 'กันยายน',
+                '10': 'ตุลาคม',
+                '11': 'พฤศจิกายน',
+                '12': 'ธันวาคม'
+            };
+            document.getElementById('selectedMonth').textContent = monthNames[selectedMonth] || 'ทุกเดือน';
+        }
+
+        function updateQuestionResults(results) {
+            for (let i = 1; i <= 4; i++) {
+                const qKey = `q${i}`;
+                document.getElementById(`${qKey}-excellent`).textContent = results[qKey].excellent;
+                document.getElementById(`${qKey}-good`).textContent = results[qKey].good;
+                document.getElementById(`${qKey}-fair`).textContent = results[qKey].fair;
+                document.getElementById(`${qKey}-poor`).textContent = results[qKey].poor;
+            }
+        }
+
+        function updatePhysiotherapistList(physiotherapists) {
+            const container = document.getElementById('physiotherapistList');
+            container.innerHTML = '';
+
+            // รายชื่อนักกายภาพบำบัดที่ต้องการแยกนับ
+            const physiotherapistNames = [
+                'ฐิติมา อุดมเลิศลักษณ์',
+                'อุมาพร อติชาติมณี',
+                'เอกธนัช สุระพงษ์',
+                'จิรพงศ์ วงษ์เวช',
+                'นิสา จำปาแฝด',
+                'อัจฉรา โค้วสว่าง',
+                'ไพโรจน์ แสงสุรินทร์',
+                'นักกายภาพบำบัดทุกคน'
+            ];
+
+            // สร้างออบเจ็กต์สำหรับเก็บจำนวนของแต่ละคน
+            const counts = {};
+            physiotherapistNames.forEach(name => {
+                counts[name] = 0;
+            });
+
+            // นับจำนวนจากข้อมูลที่ได้รับ
+            Object.entries(physiotherapists).forEach(([inputName, count]) => {
+                let matched = false;
+                
+                // ตรวจสอบว่าตรงกับชื่อใดในรายการ
+                physiotherapistNames.forEach(targetName => {
+                    if (inputName.includes(targetName) || targetName.includes(inputName) || 
+                        inputName.toLowerCase().includes(targetName.toLowerCase()) ||
+                        targetName.toLowerCase().includes(inputName.toLowerCase())) {
+                        counts[targetName] += count;
+                        matched = true;
+                    }
+                });
+
+                // หากไม่ตรงกับชื่อใดเลย ให้นับเป็น "นักกายภาพบำบัดทุกคน"
+                if (!matched && inputName.trim() !== '') {
+                    counts['นักกายภาพบำบัดทุกคน'] += count;
+                }
+            });
+
+            // เรียงลำดับตามจำนวน
+            const sortedCounts = Object.entries(counts)
+                .filter(([name, count]) => count > 0)
+                .sort(([,a], [,b]) => b - a);
+
+            if (sortedCounts.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 col-span-full text-center">ไม่มีข้อมูล</p>';
+                return;
+            }
+
+            sortedCounts.forEach(([name, count], index) => {
+                const item = document.createElement('div');
+                item.className = 'bg-gradient-to-r from-purple-100 to-blue-100 p-4 rounded-lg text-center transform hover:scale-105 transition-transform duration-200';
+                
+                // กำหนดไอคอนตามลำดับ
+                let icon = '🏅';
+                if (index === 0) icon = '🥇';
+                else if (index === 1) icon = '🥈';
+                else if (index === 2) icon = '🥉';
+                
+                item.innerHTML = `
+                    <div class="text-3xl mb-2">${icon}</div>
+                    <div class="font-bold text-gray-800 text-sm md:text-base">${name}</div>
+                    <div class="text-sm text-purple-600 font-medium">${count} ครั้ง</div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function updateComments(suggestions, improvements) {
+            updateCommentSection('suggestionsList', suggestions, '💡');
+            updateCommentSection('improvementsList', improvements, '🔧');
+        }
+
+        function updateCommentSection(containerId, comments, emoji) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+
+            if (comments.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center">ไม่มีข้อมูล</p>';
+                return;
+            }
+
+            comments.forEach((comment, index) => {
+                const item = document.createElement('div');
+                item.className = 'bg-gray-50 p-3 rounded-lg border-l-4 border-purple-500';
+                item.innerHTML = `
+                    <div class="flex items-start gap-2">
+                        <span class="text-lg">${emoji}</span>
+                        <p class="text-gray-700 flex-1">${comment}</p>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // Auto-load data on page load
+        window.addEventListener('load', loadData);
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96400e8525e5a1b7',t:'MTc1MzMyNDg2Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
