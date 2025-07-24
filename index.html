@@ -35,21 +35,21 @@
     </style>
 </head>
 <body class="min-h-screen p-4">
-    <div class="container mx-auto max-w-6xl">
+    <div class="container mx-auto max-w-6xl px-2 md:px-4">
         <!-- Header -->
-        <div class="text-center mb-8">
-            <h1 class="text-3xl md:text-5xl font-bold text-white mb-4">
+        <div class="text-center mb-6 md:mb-8">
+            <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4 px-2">
                 📊 สรุปจำนวนแบบประเมินความพึงพอใจนักกายภาพบำบัด 🏥
             </h1>
-            <p class="text-white/80 text-lg">ระบบติดตามและวิเคราะห์ความพึงพอใจของผู้รับบริการ</p>
+            <p class="text-white/80 text-base md:text-lg px-4">ระบบติดตามและวิเคราะห์ความพึงพอใจของผู้รับบริการ</p>
         </div>
 
         <!-- Control Panel -->
-        <div class="card rounded-2xl p-6 mb-8 shadow-2xl">
-            <div class="flex flex-col md:flex-row gap-4 items-center justify-center">
-                <div class="flex items-center gap-2">
-                    <label for="monthSelect" class="text-gray-700 font-medium">📅 เลือกช่วงเดือน:</label>
-                    <select id="monthSelect" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+        <div class="card rounded-xl md:rounded-2xl p-4 md:p-6 mb-6 md:mb-8 shadow-2xl mx-2 md:mx-0">
+            <div class="flex flex-col sm:flex-row gap-3 md:gap-4 items-center justify-center">
+                <div class="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto">
+                    <label for="monthSelect" class="text-gray-700 font-medium text-sm md:text-base whitespace-nowrap">📅 เลือกช่วงเดือน:</label>
+                    <select id="monthSelect" class="w-full sm:w-auto px-3 md:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm md:text-base">
                         <option value="">ทุกเดือน</option>
                         <option value="01">มกราคม</option>
                         <option value="02">กุมภาพันธ์</option>
@@ -65,7 +65,7 @@
                         <option value="12">ธันวาคม</option>
                     </select>
                 </div>
-                <button id="loadDataBtn" class="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg">
+                <button id="loadDataBtn" class="w-full sm:w-auto bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-6 md:px-8 py-2 md:py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg text-sm md:text-base">
                     🔍 เรียกดูข้อมูล
                 </button>
             </div>
@@ -88,132 +88,132 @@
         <!-- Data Display -->
         <div id="dataContainer" class="hidden fade-in">
             <!-- Summary Stats -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <div class="card rounded-2xl p-6 text-center shadow-2xl">
-                    <div class="text-3xl mb-2">📅</div>
-                    <div class="text-2xl font-bold text-blue-600" id="selectedMonth">ทุกเดือน</div>
-                    <div class="text-gray-600">เดือนที่เลือก</div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8 mx-2 md:mx-0">
+                <div class="card rounded-xl md:rounded-2xl p-4 md:p-6 text-center shadow-2xl">
+                    <div class="text-2xl md:text-3xl mb-2">📅</div>
+                    <div class="text-lg md:text-2xl font-bold text-blue-600" id="selectedMonth">ทุกเดือน</div>
+                    <div class="text-gray-600 text-sm md:text-base">เดือนที่เลือก</div>
                 </div>
-                <div class="card rounded-2xl p-6 text-center shadow-2xl">
-                    <div class="text-3xl mb-2">📝</div>
-                    <div class="text-2xl font-bold text-purple-600" id="totalResponses">0</div>
-                    <div class="text-gray-600">จำนวนผู้ตอบทั้งหมด</div>
+                <div class="card rounded-xl md:rounded-2xl p-4 md:p-6 text-center shadow-2xl">
+                    <div class="text-2xl md:text-3xl mb-2">📝</div>
+                    <div class="text-lg md:text-2xl font-bold text-purple-600" id="totalResponses">0</div>
+                    <div class="text-gray-600 text-sm md:text-base">จำนวนผู้ตอบทั้งหมด</div>
                 </div>
             </div>
 
             <!-- Detailed Results -->
-            <div class="space-y-6">
+            <div class="space-y-4 md:space-y-6 mx-2 md:mx-0">
                 <!-- Question 1 -->
-                <div class="card rounded-2xl p-6 shadow-2xl">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">👨‍⚕️ 1. เจ้าหน้าที่มีความรู้ ความสามารถให้บริการอย่างมืออาชีพ</h3>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="q1Results">
-                        <div class="text-center p-4 bg-green-100 rounded-lg">
-                            <div class="text-2xl font-bold text-green-600" id="q1-excellent">0</div>
-                            <div class="text-sm text-gray-600">ดีเยี่ยม</div>
+                <div class="card rounded-xl md:rounded-2xl p-4 md:p-6 shadow-2xl">
+                    <h3 class="text-lg md:text-xl font-bold text-gray-800 mb-3 md:mb-4 leading-tight">👨‍⚕️ 1. เจ้าหน้าที่มีความรู้ ความสามารถให้บริการอย่างมืออาชีพ</h3>
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4" id="q1Results">
+                        <div class="text-center p-3 md:p-4 bg-green-100 rounded-lg">
+                            <div class="text-xl md:text-2xl font-bold text-green-600" id="q1-excellent">0</div>
+                            <div class="text-xs md:text-sm text-gray-600">ดีเยี่ยม</div>
                         </div>
-                        <div class="text-center p-4 bg-blue-100 rounded-lg">
-                            <div class="text-2xl font-bold text-blue-600" id="q1-good">0</div>
-                            <div class="text-sm text-gray-600">ดี</div>
+                        <div class="text-center p-3 md:p-4 bg-blue-100 rounded-lg">
+                            <div class="text-xl md:text-2xl font-bold text-blue-600" id="q1-good">0</div>
+                            <div class="text-xs md:text-sm text-gray-600">ดี</div>
                         </div>
-                        <div class="text-center p-4 bg-yellow-100 rounded-lg">
-                            <div class="text-2xl font-bold text-yellow-600" id="q1-fair">0</div>
-                            <div class="text-sm text-gray-600">พอใช้</div>
+                        <div class="text-center p-3 md:p-4 bg-yellow-100 rounded-lg">
+                            <div class="text-xl md:text-2xl font-bold text-yellow-600" id="q1-fair">0</div>
+                            <div class="text-xs md:text-sm text-gray-600">พอใช้</div>
                         </div>
-                        <div class="text-center p-4 bg-red-100 rounded-lg">
-                            <div class="text-2xl font-bold text-red-600" id="q1-poor">0</div>
-                            <div class="text-sm text-gray-600">ควรปรับปรุง</div>
+                        <div class="text-center p-3 md:p-4 bg-red-100 rounded-lg">
+                            <div class="text-xl md:text-2xl font-bold text-red-600" id="q1-poor">0</div>
+                            <div class="text-xs md:text-sm text-gray-600">ควรปรับปรุง</div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Question 2 -->
-                <div class="card rounded-2xl p-6 shadow-2xl">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">😊 2. เจ้าหน้าที่พูดจาสุภาพ ยิ้มแย้มแจ่มใส</h3>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="q2Results">
-                        <div class="text-center p-4 bg-green-100 rounded-lg">
-                            <div class="text-2xl font-bold text-green-600" id="q2-excellent">0</div>
-                            <div class="text-sm text-gray-600">ดีเยี่ยม</div>
+                <div class="card rounded-xl md:rounded-2xl p-4 md:p-6 shadow-2xl">
+                    <h3 class="text-lg md:text-xl font-bold text-gray-800 mb-3 md:mb-4 leading-tight">😊 2. เจ้าหน้าที่พูดจาสุภาพ ยิ้มแย้มแจ่มใส</h3>
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4" id="q2Results">
+                        <div class="text-center p-3 md:p-4 bg-green-100 rounded-lg">
+                            <div class="text-xl md:text-2xl font-bold text-green-600" id="q2-excellent">0</div>
+                            <div class="text-xs md:text-sm text-gray-600">ดีเยี่ยม</div>
                         </div>
-                        <div class="text-center p-4 bg-blue-100 rounded-lg">
-                            <div class="text-2xl font-bold text-blue-600" id="q2-good">0</div>
-                            <div class="text-sm text-gray-600">ดี</div>
+                        <div class="text-center p-3 md:p-4 bg-blue-100 rounded-lg">
+                            <div class="text-xl md:text-2xl font-bold text-blue-600" id="q2-good">0</div>
+                            <div class="text-xs md:text-sm text-gray-600">ดี</div>
                         </div>
-                        <div class="text-center p-4 bg-yellow-100 rounded-lg">
-                            <div class="text-2xl font-bold text-yellow-600" id="q2-fair">0</div>
-                            <div class="text-sm text-gray-600">พอใช้</div>
+                        <div class="text-center p-3 md:p-4 bg-yellow-100 rounded-lg">
+                            <div class="text-xl md:text-2xl font-bold text-yellow-600" id="q2-fair">0</div>
+                            <div class="text-xs md:text-sm text-gray-600">พอใช้</div>
                         </div>
-                        <div class="text-center p-4 bg-red-100 rounded-lg">
-                            <div class="text-2xl font-bold text-red-600" id="q2-poor">0</div>
-                            <div class="text-sm text-gray-600">ควรปรับปรุง</div>
+                        <div class="text-center p-3 md:p-4 bg-red-100 rounded-lg">
+                            <div class="text-xl md:text-2xl font-bold text-red-600" id="q2-poor">0</div>
+                            <div class="text-xs md:text-sm text-gray-600">ควรปรับปรุง</div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Question 3 -->
-                <div class="card rounded-2xl p-6 shadow-2xl">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">❤️ 3. เจ้าหน้าที่เอาใจใส่ เต็มใจให้บริการ</h3>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="q3Results">
-                        <div class="text-center p-4 bg-green-100 rounded-lg">
-                            <div class="text-2xl font-bold text-green-600" id="q3-excellent">0</div>
-                            <div class="text-sm text-gray-600">ดีเยี่ยม</div>
+                <div class="card rounded-xl md:rounded-2xl p-4 md:p-6 shadow-2xl">
+                    <h3 class="text-lg md:text-xl font-bold text-gray-800 mb-3 md:mb-4 leading-tight">❤️ 3. เจ้าหน้าที่เอาใจใส่ เต็มใจให้บริการ</h3>
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4" id="q3Results">
+                        <div class="text-center p-3 md:p-4 bg-green-100 rounded-lg">
+                            <div class="text-xl md:text-2xl font-bold text-green-600" id="q3-excellent">0</div>
+                            <div class="text-xs md:text-sm text-gray-600">ดีเยี่ยม</div>
                         </div>
-                        <div class="text-center p-4 bg-blue-100 rounded-lg">
-                            <div class="text-2xl font-bold text-blue-600" id="q3-good">0</div>
-                            <div class="text-sm text-gray-600">ดี</div>
+                        <div class="text-center p-3 md:p-4 bg-blue-100 rounded-lg">
+                            <div class="text-xl md:text-2xl font-bold text-blue-600" id="q3-good">0</div>
+                            <div class="text-xs md:text-sm text-gray-600">ดี</div>
                         </div>
-                        <div class="text-center p-4 bg-yellow-100 rounded-lg">
-                            <div class="text-2xl font-bold text-yellow-600" id="q3-fair">0</div>
-                            <div class="text-sm text-gray-600">พอใช้</div>
+                        <div class="text-center p-3 md:p-4 bg-yellow-100 rounded-lg">
+                            <div class="text-xl md:text-2xl font-bold text-yellow-600" id="q3-fair">0</div>
+                            <div class="text-xs md:text-sm text-gray-600">พอใช้</div>
                         </div>
-                        <div class="text-center p-4 bg-red-100 rounded-lg">
-                            <div class="text-2xl font-bold text-red-600" id="q3-poor">0</div>
-                            <div class="text-sm text-gray-600">ควรปรับปรุง</div>
+                        <div class="text-center p-3 md:p-4 bg-red-100 rounded-lg">
+                            <div class="text-xl md:text-2xl font-bold text-red-600" id="q3-poor">0</div>
+                            <div class="text-xs md:text-sm text-gray-600">ควรปรับปรุง</div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Question 4 -->
-                <div class="card rounded-2xl p-6 shadow-2xl">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">🌟 4. ความพึงพอใจโดยรวม</h3>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="q4Results">
-                        <div class="text-center p-4 bg-green-100 rounded-lg">
-                            <div class="text-2xl font-bold text-green-600" id="q4-excellent">0</div>
-                            <div class="text-sm text-gray-600">ดีเยี่ยม</div>
+                <div class="card rounded-xl md:rounded-2xl p-4 md:p-6 shadow-2xl">
+                    <h3 class="text-lg md:text-xl font-bold text-gray-800 mb-3 md:mb-4 leading-tight">🌟 4. ความพึงพอใจโดยรวม</h3>
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4" id="q4Results">
+                        <div class="text-center p-3 md:p-4 bg-green-100 rounded-lg">
+                            <div class="text-xl md:text-2xl font-bold text-green-600" id="q4-excellent">0</div>
+                            <div class="text-xs md:text-sm text-gray-600">ดีเยี่ยม</div>
                         </div>
-                        <div class="text-center p-4 bg-blue-100 rounded-lg">
-                            <div class="text-2xl font-bold text-blue-600" id="q4-good">0</div>
-                            <div class="text-sm text-gray-600">ดี</div>
+                        <div class="text-center p-3 md:p-4 bg-blue-100 rounded-lg">
+                            <div class="text-xl md:text-2xl font-bold text-blue-600" id="q4-good">0</div>
+                            <div class="text-xs md:text-sm text-gray-600">ดี</div>
                         </div>
-                        <div class="text-center p-4 bg-yellow-100 rounded-lg">
-                            <div class="text-2xl font-bold text-yellow-600" id="q4-fair">0</div>
-                            <div class="text-sm text-gray-600">พอใช้</div>
+                        <div class="text-center p-3 md:p-4 bg-yellow-100 rounded-lg">
+                            <div class="text-xl md:text-2xl font-bold text-yellow-600" id="q4-fair">0</div>
+                            <div class="text-xs md:text-sm text-gray-600">พอใช้</div>
                         </div>
-                        <div class="text-center p-4 bg-red-100 rounded-lg">
-                            <div class="text-2xl font-bold text-red-600" id="q4-poor">0</div>
-                            <div class="text-sm text-gray-600">ควรปรับปรุง</div>
+                        <div class="text-center p-3 md:p-4 bg-red-100 rounded-lg">
+                            <div class="text-xl md:text-2xl font-bold text-red-600" id="q4-poor">0</div>
+                            <div class="text-xs md:text-sm text-gray-600">ควรปรับปรุง</div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Popular Physiotherapists -->
-                <div class="card rounded-2xl p-6 shadow-2xl">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">🏆 นักกายภาพบำบัดที่ได้รับการประทับใจ</h3>
-                    <div id="physiotherapistList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="card rounded-xl md:rounded-2xl p-4 md:p-6 shadow-2xl">
+                    <h3 class="text-lg md:text-xl font-bold text-gray-800 mb-3 md:mb-4">🏆 นักกายภาพบำบัดที่ได้รับการประทับใจ</h3>
+                    <div id="physiotherapistList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
                         <!-- Will be populated by JavaScript -->
                     </div>
                 </div>
 
                 <!-- Comments Section -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="card rounded-2xl p-6 shadow-2xl">
-                        <h3 class="text-xl font-bold text-gray-800 mb-4">💡 ข้อเสนอแนะ</h3>
-                        <div id="suggestionsList" class="space-y-3 max-h-96 overflow-y-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+                    <div class="card rounded-xl md:rounded-2xl p-4 md:p-6 shadow-2xl">
+                        <h3 class="text-lg md:text-xl font-bold text-gray-800 mb-3 md:mb-4">💡 ข้อเสนอแนะ</h3>
+                        <div id="suggestionsList" class="space-y-2 md:space-y-3 max-h-80 md:max-h-96 overflow-y-auto">
                             <!-- Will be populated by JavaScript -->
                         </div>
                     </div>
-                    <div class="card rounded-2xl p-6 shadow-2xl">
-                        <h3 class="text-xl font-bold text-gray-800 mb-4">🔧 ข้อควรปรับปรุง</h3>
-                        <div id="improvementsList" class="space-y-3 max-h-96 overflow-y-auto">
+                    <div class="card rounded-xl md:rounded-2xl p-4 md:p-6 shadow-2xl">
+                        <h3 class="text-lg md:text-xl font-bold text-gray-800 mb-3 md:mb-4">🔧 ข้อควรปรับปรุง</h3>
+                        <div id="improvementsList" class="space-y-2 md:space-y-3 max-h-80 md:max-h-96 overflow-y-auto">
                             <!-- Will be populated by JavaScript -->
                         </div>
                     </div>
@@ -431,7 +431,7 @@
 
             sortedCounts.forEach(([name, count], index) => {
                 const item = document.createElement('div');
-                item.className = 'bg-gradient-to-r from-purple-100 to-blue-100 p-4 rounded-lg text-center transform hover:scale-105 transition-transform duration-200';
+                item.className = 'bg-gradient-to-r from-purple-100 to-blue-100 p-3 md:p-4 rounded-lg text-center transform hover:scale-105 transition-transform duration-200';
                 
                 // กำหนดไอคอนตามลำดับ
                 let icon = '🏅';
@@ -440,9 +440,9 @@
                 else if (index === 2) icon = '🥉';
                 
                 item.innerHTML = `
-                    <div class="text-3xl mb-2">${icon}</div>
-                    <div class="font-bold text-gray-800 text-sm md:text-base">${name}</div>
-                    <div class="text-sm text-purple-600 font-medium">${count} ครั้ง</div>
+                    <div class="text-2xl md:text-3xl mb-2">${icon}</div>
+                    <div class="font-bold text-gray-800 text-xs sm:text-sm md:text-base leading-tight">${name}</div>
+                    <div class="text-xs md:text-sm text-purple-600 font-medium mt-1">${count} ครั้ง</div>
                 `;
                 container.appendChild(item);
             });
@@ -464,11 +464,11 @@
 
             comments.forEach((comment, index) => {
                 const item = document.createElement('div');
-                item.className = 'bg-gray-50 p-3 rounded-lg border-l-4 border-purple-500';
+                item.className = 'bg-gray-50 p-3 md:p-4 rounded-lg border-l-4 border-purple-500';
                 item.innerHTML = `
                     <div class="flex items-start gap-2">
-                        <span class="text-lg">${emoji}</span>
-                        <p class="text-gray-700 flex-1">${comment}</p>
+                        <span class="text-base md:text-lg flex-shrink-0">${emoji}</span>
+                        <p class="text-gray-700 flex-1 text-sm md:text-base leading-relaxed">${comment}</p>
                     </div>
                 `;
                 container.appendChild(item);
@@ -478,5 +478,5 @@
         // Auto-load data on page load
         window.addEventListener('load', loadData);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96400e8525e5a1b7',t:'MTc1MzMyNDg2Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9640276fb39ace9b',t:'MTc1MzMyNTg4OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
